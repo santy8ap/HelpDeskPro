@@ -1,6 +1,6 @@
 'use client';
 
-export default function VideoBackground({ videoSrc = "/background.mp4" }: { videoSrc?: string }) {
+export default function VideoBackground({ videoSrc = "/future-trunks-dbz.3840x2160.mp4" }: { videoSrc?: string }) {
     return (
         <div className="fixed inset-0 -z-10 overflow-hidden">
             {/* Video de fondo */}
