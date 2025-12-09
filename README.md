@@ -6,6 +6,14 @@ Sistema de gestión de tickets de soporte técnico desarrollado con **Next.js**,
 
 HelpDeskPro es una aplicación web que permite gestionar tickets de soporte de manera eficiente, centralizando la comunicación entre clientes y agentes.
 
+## 🧑‍💻 Datos del Coder / Autor  
+| Campo         | Valor                         |
+|------------   |-------------------------------|
+| **Nombre**    | SANTIAGO OCHOA POSSO          |
+| **Clan**      | typescript                    |
+| **Correo**    | santy8apossogmail.com         |
+| **Documento** | 1033180556                    |
+
 ## 🏗️ Arquitectura de Datos (ERD)
 
 El sistema se basa en tres entidades principales relacionadas entre sí:
@@ -65,16 +73,8 @@ Representa el hilo de conversación de un ticket.
 ### Despliegue en Vercel (Producción)
 Este proyecto está optimizado para Vercel.
 
-1. Sube tu código a GitHub.
-2. Importa el proyecto en Vercel.
-3. Configura las variables de entorno en Vercel (Settings -> Environment Variables):
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-   - `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`...
-   - `CRON_SECRET`
-4. ¡Listo! Vercel detectará Next.js y desplegará automáticamente.
 
-## 🧪 Funcionalidades (Happy Path)
+## 🧪 Funcionalidades 
 
 1. **Login**: Ingresa como Cliente o Agente.
 2. **Cliente**: Crea un ticket -> Recibe email de confirmación.
