@@ -47,127 +47,150 @@ export default function LoginPage() {
                     password: formData.password,
                     role: formData.role,
                 });
-                setSuccess('Cuenta creada exitosamente. Ahora puedes iniciar sesión.');
+                setSuccess('✨ ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.');
                 setIsLogin(true);
-                setFormData({ ...formData, name: '', password: '' });
             }
         } catch (err: any) {
-            setError(err.message || 'Error en la operación');
+            setError(err.message || '❌ Error. Por favor intenta de nuevo.');
         } finally {
             setLoading(false);
         }
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-            <div className="max-w-md w-full">
-                {/* Logo */}
+        <div className="min-h-screen flex items-center justify-center px-4 py-12 sakura-pattern">
+            <div className="w-full max-w-md animate-fade-in-down">
+                {/* Logo/Header con estilo anime */}
                 <div className="text-center mb-8">
-                    <span className="text-5xl">🎫</span>
-                    <h1 className="text-3xl font-bold text-gray-900 mt-2">HelpDeskPro</h1>
-                    <p className="text-gray-500 mt-2">Sistema de Gestión de Tickets</p>
+                    <div className="inline-block bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text">
+                        <h1 className="text-5xl font-bold mb-2">
+                            🌸 HelpDeskPro
+                        </h1>
+                    </div>
+                    <p className="text-gray-600 text-sm">
+                        {isLogin ? '✨ Bienvenido de vuelta ✨' : '💫 Crea tu cuenta 💫'}
+                    </p>
                 </div>
 
-                <Card>
-                    <Card.Header>
-                        <div className="flex border-b">
-                            <button
-                                onClick={() => setIsLogin(true)}
-                                className={`flex-1 py-2 text-center font-medium transition-colors ${isLogin
-                                    ? 'text-primary-600 border-b-2 border-primary-600'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                Iniciar Sesión
-                            </button>
-                            <button
-                                onClick={() => setIsLogin(false)}
-                                className={`flex-1 py-2 text-center font-medium transition-colors ${!isLogin
-                                    ? 'text-primary-600 border-b-2 border-primary-600'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                Registrarse
-                            </button>
-                        </div>
-                    </Card.Header>
-
+                <Card className="anime-card animate-scale-in">
                     <Card.Body>
                         {error && (
-                            <div className="mb-4">
-                                <Alert type="error" message={error} onClose={() => setError('')} />
+                            <div className="mb-4 animate-fade-in-down">
+                                <Alert variant="error" message={error} />
                             </div>
                         )}
-
                         {success && (
-                            <div className="mb-4">
-                                <Alert type="success" message={success} onClose={() => setSuccess('')} />
+                            <div className="mb-4 animate-fade-in-down">
+                                <Alert variant="success" message={success} />
                             </div>
                         )}
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {!isLogin && (
                                 <Input
-                                    label="Nombre"
+                                    label="👤 Nombre"
                                     type="text"
+                                    name="name"
                                     value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder="Tu nombre completo"
+                                    onChange={handleChange}
                                     required={!isLogin}
+                                    placeholder="Tu nombre"
                                 />
                             )}
 
                             <Input
-                                label="Email"
+                                label="📧 Correo Electrónico"
                                 type="email"
+                                name="email"
                                 value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                placeholder="tu@email.com"
+                                onChange={handleChange}
                                 required
+                                placeholder="tu@email.com"
                             />
 
                             <Input
-                                label="Contraseña"
+                                label="🔒 Contraseña"
                                 type="password"
+                                name="password"
                                 value={formData.password}
-                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                placeholder="••••••••"
+                                onChange={handleChange}
                                 required
+                                placeholder="••••••••"
                             />
 
                             {!isLogin && (
                                 <Select
-                                    label="Tipo de Usuario"
+                                    label="👔 Rol"
+                                    name="role"
                                     value={formData.role}
-                                    onChange={(e) => setFormData({ ...formData, role: e.target.value as 'client' | 'agent' })}
+                                    onChange={handleChange}
                                     options={[
-                                        { value: 'client', label: 'Cliente (Crear tickets)' },
-                                        { value: 'agent', label: 'Agente (Atender tickets)' },
+                                        { value: 'client', label: '👤 Cliente' },
+                                        { value: 'agent', label: '🎧 Agente de Soporte' },
                                     ]}
                                 />
                             )}
 
                             <Button
                                 type="submit"
-                                className="w-full"
                                 loading={loading}
+                                disabled={loading}
+                                className="w-full btn-primary font-semibold text-base"
                             >
-                                {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'}
+                                {loading ? '⏳ Procesando...' : isLogin ? '🚀 Iniciar Sesión' : '✨ Crear Cuenta'}
                             </Button>
                         </form>
+
+                        <div className="mt-6 text-center">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsLogin(!isLogin);
+                                    setError('');
+                                    setSuccess('');
+                                }}
+                                className="text-sm text-purple-500 hover:text-purple-600 font-medium transition-colors"
+                            >
+                                {isLogin
+                                    ? '¿No tienes cuenta? 💫 Regístrate aquí'
+                                    : '¿Ya tienes cuenta? 🌸 Inicia sesión'}
+                            </button>
+                        </div>
+
+                        {/* Credenciales de prueba con estilo kawaii */}
+                        {isLogin && (
+                            <div className="mt-6 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-200/50">
+                                <p className="text-xs font-semibold text-gray-700 mb-2">
+                                    🎀 Cuentas de Prueba:
+                                </p>
+                                <div className="space-y-2 text-xs text-gray-600">
+                                    <div className="flex items-center justify-between">
+                                        <span>👤 Cliente:</span>
+                                        <code className="bg-white/70 px-2 py-1 rounded">cliente1@test.com</code>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span>🎧 Agente:</span>
+                                        <code className="bg-white/70 px-2 py-1 rounded">agente1@helpdesk.com</code>
+                                    </div>
+                                    <div className="text-center text-gray-500 text-xs mt-1">
+                                        Password: <code className="bg-white/70 px-2 py-0.5 rounded">123456</code>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </Card.Body>
                 </Card>
 
-                <div className="mt-6 text-center text-sm text-gray-500">
-                    <p>
-                        {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
-                        <button
-                            onClick={() => setIsLogin(!isLogin)}
-                            className="text-primary-600 hover:text-primary-700 font-medium"
-                        >
-                            {isLogin ? 'Regístrate aquí' : 'Inicia sesión aquí'}
-                        </button>
-                    </p>
+                {/* Footer kawaii */}
+                <div className="text-center mt-6 text-sm text-gray-500">
+                    <p>Made with 💖 by HelpDeskPro Team</p>
                 </div>
             </div>
         </div>

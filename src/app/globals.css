@@ -2,83 +2,139 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Paleta de colores inspirada en anime */
 :root {
-  --foreground-rgb: 15, 23, 42;
-  --background-rgb: 249, 250, 251;
-  --primary: 59, 130, 246;
-  --primary-dark: 29, 78, 216;
+  --anime-pink: #FFB7D5;
+  --anime-purple: #C3B1E1;
+  --anime-blue: #A8D8EA;
+  --anime-mint: #C7EDCC;
+  --anime-peach: #FFE5D9;
+  --anime-lavender: #E8D5F2;
+
+  --foreground-rgb: 45, 45, 65;
+  --background-rgb: 255, 250, 250;
 }
 
 @layer base {
   body {
-    @apply text-gray-900 bg-gray-50 antialiased;
+    @apply text-gray-800 antialiased;
+    background: linear-gradient(135deg, #FFE5D9 0%, #E8D5F2 50%, #A8D8EA 100%);
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Patrón japonés sutil de fondo */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(255, 183, 213, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(168, 216, 234, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 90%, rgba(199, 237, 204, 0.1) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
   }
 }
 
-/* Scrollbar personalizada */
+/* Scrollbar personalizada estilo anime */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 rounded;
+  background: rgba(255, 183, 213, 0.2);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded hover:bg-gray-400;
+  background: linear-gradient(180deg, var(--anime-pink) 0%, var(--anime-purple) 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Animaciones suaves */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--anime-purple) 0%, var(--anime-blue) 100%);
+}
+
+/* Animaciones suaves estilo anime */
 @layer utilities {
   .transition-smooth {
-    @apply transition-all duration-200 ease-in-out;
+    @apply transition-all duration-300 ease-out;
   }
 
   .hover-lift {
-    @apply hover:shadow-lg hover:-translate-y-0.5 transition-smooth;
+    @apply hover:shadow-xl hover:-translate-y-1 transition-smooth;
+    transform-style: preserve-3d;
   }
 
   .card-shadow {
-    @apply shadow-sm hover:shadow-md transition-shadow duration-200;
+    @apply shadow-lg hover:shadow-2xl transition-shadow duration-300;
+    box-shadow: 0 4px 20px rgba(255, 183, 213, 0.3);
+  }
+
+  .card-shadow:hover {
+    box-shadow: 0 8px 30px rgba(195, 177, 225, 0.4);
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 }
 
-/* Estilos para inputs focus */
+/* Componentes estilo anime */
 @layer components {
   .input-focus {
-    @apply focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-smooth;
+    @apply focus:ring-2 focus:border-pink-400 transition-smooth;
+    focus: ring-color: var(--anime-pink);
+    border-radius: 12px;
   }
 
   .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-smooth focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply text-white font-medium py-2.5 px-5 rounded-xl transition-smooth;
+    @apply focus:ring-2 focus:ring-offset-2;
+    background: linear-gradient(135deg, #FFB7D5 0%, #C3B1E1 100%);
+    box-shadow: 0 4px 15px rgba(255, 183, 213, 0.4);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #C3B1E1 0%, #A8D8EA 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(195, 177, 225, 0.5);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
   }
 
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded-lg transition-smooth;
+    @apply bg-white/80 hover:bg-white text-gray-700 font-medium py-2.5 px-5 rounded-xl transition-smooth;
+    @apply border border-pink-200 hover:border-pink-300;
+    box-shadow: 0 2px 10px rgba(255, 183, 213, 0.2);
+  }
+
+  .anime-card {
+    @apply bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg;
+    @apply border border-pink-100/50 transition-smooth;
+  }
+
+  .anime-card:hover {
+    @apply border-pink-200;
+    box-shadow: 0 8px 30px rgba(255, 183, 213, 0.3);
   }
 }
 
-/* Loading animation */
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 2s linear infinite;
-}
-
-/* Fade in animation */
-@keyframes fadeIn {
+/* Animación de entrada estilo anime */
+@keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-20px);
   }
 
   to {
@@ -87,6 +143,76 @@
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Efectos de brillo kawaii */
+@keyframes sparkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* Efecto de hover para cards */
+.ticket-card {
+  @apply anime-card p-5 cursor-pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ticket-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Badge estilo anime */
+.anime-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  @apply shadow-sm transition-all duration-200;
+}
+
+/* Patrones decorativos */
+.sakura-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFB7D5' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
