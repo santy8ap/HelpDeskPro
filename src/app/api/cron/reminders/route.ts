@@ -6,6 +6,8 @@ import User from '@/app/models/User';
 import { sendReminderEmail } from '@/app/lib/mail';
 import { ApiResponse } from '@/app/types';
 
+export const dynamic = 'force-dynamic';
+
 // Esta ruta debe ser llamada por un cron job externo (Vercel Cron)
 export async function GET(request: NextRequest) {
     try {

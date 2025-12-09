@@ -4,6 +4,8 @@ import User from '@/app/models/User';
 import { getUserFromRequest, isAgent } from '@/app/lib/auth';
 import { ApiResponse } from '@/app/types';
 
+export const dynamic = 'force-dynamic';
+
 // GET - Listar agentes (para asignación)
 export async function GET(request: NextRequest) {
     try {

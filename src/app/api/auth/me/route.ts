@@ -4,6 +4,9 @@ import User from '@/app/models/User';
 import { getUserFromRequest } from '@/app/lib/auth';
 import { ApiResponse } from '@/app/types';
 
+// Indicar que esta ruta debe ser dinámica (soluciona warnings de Vercel)
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
     try {
         const payload = await getUserFromRequest(request);
