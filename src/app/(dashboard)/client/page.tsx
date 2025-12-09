@@ -8,8 +8,10 @@ import ticketService from '@/app/services/ticketService';
 import Button from '@/app/components/ui/Button';
 import TicketList from '@/app/components/tickets/TicketList';
 import TicketForm from '@/app/components/tickets/TicketForm';
-import Badge from '@/app/components/ui/Badge';
 import Card from '@/app/components/ui/Card';
+import PageLoading from '@/app/components/ui/PageLoading';
+import { FiLogOut, FiPlus, FiX, FiActivity, FiCheckCircle, FiClock, FiArchive } from 'react-icons/fi';
+import { HiSparkles } from 'react-icons/hi';
 
 export default function ClientDashboard() {
     const { user, logout } = useAuth();
@@ -51,37 +53,32 @@ export default function ClientDashboard() {
         loadTickets();
     };
 
-    if (!user) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="text-6xl mb-4">⏳</div>
-                    <p className="text-gray-500">Cargando...</p>
-                </div>
-            </div>
-        );
+    if (!user || loading) {
+        return <PageLoading message="Cargando tu panel..." />;
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50/50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
+            <header className="bg-white/80 backdrop-blur-md border-b border-pink-100 sticky top-0 z-40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <span className="text-3xl">🎫</span>
+                            <HiSparkles className="text-pink-500 text-2xl animate-pulse" />
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">HelpDeskPro</h1>
-                                <p className="text-sm text-gray-500">Panel de Cliente</p>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+                                    HelpDeskPro
+                                </h1>
+                                <p className="text-xs text-gray-500 font-medium">Panel de Cliente</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="text-right">
-                                <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                            <div className="text-right hidden sm:block">
+                                <p className="text-sm font-bold text-gray-800">{user.name}</p>
                                 <p className="text-xs text-gray-500">{user.email}</p>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={logout}>
-                                Cerrar Sesión
+                            <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:bg-red-50">
+                                <FiLogOut className="mr-2" /> Salir
                             </Button>
                         </div>
                     </div>
@@ -89,46 +86,54 @@ export default function ClientDashboard() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in-up">
                 {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <Card>
-                        <Card.Body>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                    <Card className="card-shadow border-t-4 border-t-blue-400">
+                        <Card.Body className="p-4">
                             <div className="text-center">
-                                <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
-                                <p className="text-sm text-gray-500 mt-1">Total</p>
+                                <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
+                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider">Total</p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <Card.Body>
+                    <Card className="card-shadow border-t-4 border-t-green-400">
+                        <Card.Body className="p-4">
                             <div className="text-center">
-                                <p className="text-3xl font-bold text-blue-600">{stats.open}</p>
-                                <p className="text-sm text-gray-500 mt-1">Abiertos</p>
+                                <p className="text-3xl font-bold text-green-600">{stats.open}</p>
+                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                                    <FiActivity /> Abiertos
+                                </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <Card.Body>
+                    <Card className="card-shadow border-t-4 border-t-yellow-400">
+                        <Card.Body className="p-4">
                             <div className="text-center">
                                 <p className="text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
-                                <p className="text-sm text-gray-500 mt-1">En Progreso</p>
+                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                                    <FiClock /> En Proceso
+                                </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <Card.Body>
+                    <Card className="card-shadow border-t-4 border-t-purple-400">
+                        <Card.Body className="p-4">
                             <div className="text-center">
-                                <p className="text-3xl font-bold text-green-600">{stats.resolved}</p>
-                                <p className="text-sm text-gray-500 mt-1">Resueltos</p>
+                                <p className="text-3xl font-bold text-purple-600">{stats.resolved}</p>
+                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                                    <FiCheckCircle /> Resueltos
+                                </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <Card.Body>
+                    <Card className="card-shadow border-t-4 border-t-gray-400">
+                        <Card.Body className="p-4">
                             <div className="text-center">
                                 <p className="text-3xl font-bold text-gray-600">{stats.closed}</p>
-                                <p className="text-sm text-gray-500 mt-1">Cerrados</p>
+                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                                    <FiArchive /> Cerrados
+                                </p>
                             </div>
                         </Card.Body>
                     </Card>
@@ -136,18 +141,29 @@ export default function ClientDashboard() {
 
                 {/* Actions */}
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900">Mis Tickets</h2>
-                    <Button onClick={() => setShowCreateForm(!showCreateForm)}>
-                        {showCreateForm ? '✕ Cancelar' : '+ Crear Ticket'}
+                    <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <span className="text-2xl">🎫</span> Mis Tickets
+                    </h2>
+                    <Button
+                        onClick={() => setShowCreateForm(!showCreateForm)}
+                        className={showCreateForm ? "bg-red-500 hover:bg-red-600 text-white" : "btn-primary"}
+                    >
+                        {showCreateForm ? (
+                            <><FiX className="mr-2" /> Cancelar</>
+                        ) : (
+                            <><FiPlus className="mr-2" /> Crear Ticket</>
+                        )}
                     </Button>
                 </div>
 
                 {/* Create Form */}
                 {showCreateForm && (
-                    <div className="mb-8">
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-lg font-semibold">Crear Nuevo Ticket</h3>
+                    <div className="mb-8 animate-scale-in">
+                        <Card className="anime-card border-2 border-pink-100">
+                            <Card.Header className="bg-gradient-to-r from-pink-50 to-purple-50 border-b border-pink-100">
+                                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                                    ✨ Crear Nuevo Ticket
+                                </h3>
                             </Card.Header>
                             <Card.Body>
                                 <TicketForm
@@ -163,18 +179,22 @@ export default function ClientDashboard() {
 
                 {/* Error */}
                 {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-                        <p className="text-red-800">{error}</p>
+                    <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 animate-fade-in-down">
+                        <p className="text-red-800 flex items-center gap-2">
+                            <FiX className="text-red-500" /> {error}
+                        </p>
                     </div>
                 )}
 
                 {/* Tickets List */}
-                <TicketList
-                    tickets={tickets}
-                    basePath="/client"
-                    loading={loading}
-                    emptyMessage="No tienes tickets creados. ¡Crea tu primer ticket!"
-                />
+                <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-2">
+                    <TicketList
+                        tickets={tickets}
+                        basePath="/client"
+                        loading={false} // Loading handled by PageLoading
+                        emptyMessage="No tienes tickets creados. ¡Crea tu primer ticket para comenzar!"
+                    />
+                </div>
             </main>
         </div>
     );

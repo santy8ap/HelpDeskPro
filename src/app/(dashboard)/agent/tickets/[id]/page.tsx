@@ -14,6 +14,9 @@ import Badge, { getStatusVariant, getPriorityVariant, getStatusLabel, getPriorit
 import CommentList from '@/app/components/comments/CommentList';
 import CommentForm from '@/app/components/comments/CommentForm';
 import Alert from '@/app/components/ui/Alert';
+import PageLoading from '@/app/components/ui/PageLoading';
+import { FiArrowLeft, FiMessageSquare, FiInfo, FiCalendar, FiUser, FiClock, FiAlertCircle, FiEdit2, FiSave, FiX, FiCheckSquare } from 'react-icons/fi';
+import { HiSparkles } from 'react-icons/hi';
 
 export default function AgentTicketDetailPage() {
     const params = useParams();
@@ -123,25 +126,18 @@ export default function AgentTicketDetailPage() {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <div className="text-6xl mb-4">⏳</div>
-                    <p className="text-gray-500">Cargando ticket...</p>
-                </div>
-            </div>
-        );
+        return <PageLoading message="Cargando detalles del ticket..." />;
     }
 
     if (error && !ticket) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center max-w-md">
-                    <div className="text-6xl mb-4">😕</div>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50/50">
+                <div className="text-center max-w-md animate-fade-in-down">
+                    <div className="text-6xl mb-4 animate-bounce">😕</div>
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
-                    <p className="text-gray-500 mb-4">{error}</p>
-                    <Button onClick={() => router.push('/agent')}>
-                        Volver al Dashboard
+                    <p className="text-gray-500 mb-6">{error}</p>
+                    <Button onClick={() => router.push('/agent')} className="btn-primary">
+                        <FiArrowLeft className="mr-2" /> Volver al Dashboard
                     </Button>
                 </div>
             </div>
@@ -156,7 +152,7 @@ export default function AgentTicketDetailPage() {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+            <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -164,15 +160,15 @@ export default function AgentTicketDetailPage() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => router.push('/agent')}
-                                className="text-white hover:bg-blue-800"
+                                className="text-white hover:bg-white/20 border border-white/30"
                             >
-                                ← Volver
+                                <FiArrowLeft className="mr-1" /> Volver
                             </Button>
                             <div>
-                                <h1 className="text-2xl font-bold">
+                                <h1 className="text-2xl font-bold flex items-center gap-2">
                                     Ticket #{ticket._id.slice(-6)}
                                 </h1>
-                                <p className="text-sm text-blue-100">Gestión de ticket</p>
+                                <p className="text-sm text-blue-100 opacity-90">Gestión de ticket</p>
                             </div>
                         </div>
                         {ticket.status !== 'closed' && (
@@ -181,8 +177,9 @@ export default function AgentTicketDetailPage() {
                                 size="sm"
                                 onClick={handleCloseTicket}
                                 loading={updating}
+                                className="bg-red-500 hover:bg-red-600 border border-red-400 shadow-sm"
                             >
-                                Cerrar Ticket
+                                <FiCheckSquare className="mr-2" /> Cerrar Ticket
                             </Button>
                         )}
                     </div>
@@ -190,15 +187,15 @@ export default function AgentTicketDetailPage() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in-up">
                 {/* Alerts */}
                 {success && (
-                    <div className="mb-4">
+                    <div className="mb-4 animate-fade-in-down">
                         <Alert type="success" message={success} onClose={() => setSuccess('')} />
                     </div>
                 )}
                 {error && ticket && (
-                    <div className="mb-4">
+                    <div className="mb-4 animate-fade-in-down">
                         <Alert type="error" message={error} onClose={() => setError('')} />
                     </div>
                 )}
@@ -207,13 +204,15 @@ export default function AgentTicketDetailPage() {
                     {/* Ticket Details */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Main Info */}
-                        <Card>
-                            <Card.Header>
+                        {/* Main Info */}
+                        <Card className="card-shadow border-t-4 border-t-blue-500">
+                            <Card.Header className="bg-gradient-to-r from-blue-50/50 to-indigo-50/50">
                                 <div className="flex items-start justify-between">
-                                    <h2 className="text-2xl font-bold text-gray-900 flex-1">
+                                    <h2 className="text-2xl font-bold text-gray-900 flex-1 flex items-center gap-2">
+                                        <HiSparkles className="text-blue-500" />
                                         {ticket.title}
                                     </h2>
-                                    <div className="flex gap-2 ml-4">
+                                    <div className="flex flex-col sm:flex-row gap-2 ml-4">
                                         <Badge variant={getStatusVariant(ticket.status)}>
                                             {getStatusLabel(ticket.status)}
                                         </Badge>
@@ -225,30 +224,36 @@ export default function AgentTicketDetailPage() {
                             </Card.Header>
                             <Card.Body>
                                 <div className="prose max-w-none">
-                                    <h3 className="text-sm font-semibold text-gray-900 mb-2">Descripción:</h3>
-                                    <p className="text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+                                    <h3 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                                        <FiInfo className="text-blue-500" /> Descripción
+                                    </h3>
+                                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                        {ticket.description}
+                                    </div>
                                 </div>
                             </Card.Body>
                         </Card>
 
                         {/* Comments Section */}
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    Conversación ({comments.length})
+                        {/* Comments Section */}
+                        <Card className="card-shadow">
+                            <Card.Header className="bg-white border-b border-gray-100">
+                                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                    <FiMessageSquare className="text-purple-500" />
+                                    Conversación <span className="bg-purple-100 text-purple-600 text-xs px-2 py-0.5 rounded-full">{comments.length}</span>
                                 </h3>
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body className="bg-gray-50/30">
                                 <CommentList comments={comments} currentUserId={user?._id} />
                             </Card.Body>
                         </Card>
 
                         {/* Add Response */}
                         {ticket.status !== 'closed' && (
-                            <Card>
-                                <Card.Header>
-                                    <h3 className="text-lg font-semibold text-gray-900">
-                                        Responder al Cliente
+                            <Card className="anime-card border-2 border-blue-100">
+                                <Card.Header className="bg-blue-50/50 border-b border-blue-100">
+                                    <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                        ✨ Responder al Cliente
                                     </h3>
                                 </Card.Header>
                                 <Card.Body>
@@ -266,12 +271,15 @@ export default function AgentTicketDetailPage() {
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {/* Edit Ticket */}
-                        <Card>
-                            <Card.Header>
+                        {/* Edit Ticket */}
+                        <Card className="card-shadow sticky top-24">
+                            <Card.Header className="bg-gray-50 border-b border-gray-100">
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-semibold text-gray-900">Gestionar Ticket</h3>
+                                    <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                                        <FiEdit2 /> Gestionar Ticket
+                                    </h3>
                                     {!editMode && ticket.status !== 'closed' && (
-                                        <Button size="sm" variant="ghost" onClick={() => setEditMode(true)}>
+                                        <Button size="sm" variant="ghost" onClick={() => setEditMode(true)} className="text-blue-600 hover:bg-blue-50">
                                             ✏️ Editar
                                         </Button>
                                     )}
@@ -279,7 +287,7 @@ export default function AgentTicketDetailPage() {
                             </Card.Header>
                             <Card.Body>
                                 {editMode ? (
-                                    <div className="space-y-4">
+                                    <div className="space-y-4 animate-fade-in">
                                         <Select
                                             label="Estado"
                                             value={formData.status}
@@ -310,9 +318,9 @@ export default function AgentTicketDetailPage() {
                                                 ...agents.map(agent => ({ value: agent._id, label: agent.name }))
                                             ]}
                                         />
-                                        <div className="flex gap-2">
-                                            <Button onClick={handleUpdate} loading={updating} size="sm">
-                                                Guardar
+                                        <div className="flex gap-2 pt-2">
+                                            <Button onClick={handleUpdate} loading={updating} size="sm" className="flex-1 btn-primary">
+                                                <FiSave className="mr-1" /> Guardar
                                             </Button>
                                             <Button
                                                 variant="secondary"
@@ -327,33 +335,43 @@ export default function AgentTicketDetailPage() {
                                                             : ticket.assignedTo || '',
                                                     });
                                                 }}
+                                                className="flex-1"
                                             >
-                                                Cancelar
+                                                <FiX className="mr-1" /> Cancelar
                                             </Button>
                                         </div>
                                     </div>
                                 ) : (
-                                    <dl className="space-y-3">
-                                        <div>
-                                            <dt className="text-xs text-gray-500">Estado</dt>
-                                            <dd className="mt-1">
+                                    <dl className="space-y-4">
+                                        <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                            <dt className="text-xs text-gray-500 font-medium">Estado</dt>
+                                            <dd>
                                                 <Badge variant={getStatusVariant(ticket.status)}>
                                                     {getStatusLabel(ticket.status)}
                                                 </Badge>
                                             </dd>
                                         </div>
-                                        <div>
-                                            <dt className="text-xs text-gray-500">Prioridad</dt>
-                                            <dd className="mt-1">
+                                        <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                            <dt className="text-xs text-gray-500 font-medium">Prioridad</dt>
+                                            <dd>
                                                 <Badge variant={getPriorityVariant(ticket.priority)}>
                                                     {getPriorityLabel(ticket.priority)}
                                                 </Badge>
                                             </dd>
                                         </div>
-                                        <div>
-                                            <dt className="text-xs text-gray-500">Asignado a</dt>
-                                            <dd className="mt-1 text-sm text-gray-900">
-                                                {assignedTo ? `👨‍💼 ${assignedTo.name}` : 'Sin asignar'}
+                                        <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                            <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                                <FiUser className="text-blue-500" /> Asignado a
+                                            </dt>
+                                            <dd className="text-sm text-gray-900 font-medium flex items-center gap-1">
+                                                {assignedTo ? (
+                                                    <>
+                                                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                                        {assignedTo.name}
+                                                    </>
+                                                ) : (
+                                                    <span className="text-gray-400 italic">Sin asignar</span>
+                                                )}
                                             </dd>
                                         </div>
                                     </dl>
@@ -362,32 +380,38 @@ export default function AgentTicketDetailPage() {
                         </Card>
 
                         {/* Client Info */}
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-sm font-semibold text-gray-900">Información del Cliente</h3>
+                        <Card className="card-shadow">
+                            <Card.Header className="bg-gray-50 border-b border-gray-100">
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                                    <FiUser /> Información del Cliente
+                                </h3>
                             </Card.Header>
                             <Card.Body>
-                                <dl className="space-y-3">
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Nombre</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">
+                                <dl className="space-y-4">
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium">Nombre</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 font-medium">
                                             {createdBy?.name || 'Usuario'}
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Email</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium">Email</dt>
+                                        <dd className="mt-1 text-sm text-gray-900 font-mono bg-gray-100 px-2 py-1 rounded inline-block">
                                             {createdBy?.email || 'N/A'}
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Fecha de creación</dt>
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                            <FiCalendar /> Fecha de creación
+                                        </dt>
                                         <dd className="mt-1 text-sm text-gray-900">
                                             {new Date(ticket.createdAt).toLocaleString('es-ES')}
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Última actualización</dt>
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                            <FiClock /> Última actualización
+                                        </dt>
                                         <dd className="mt-1 text-sm text-gray-900">
                                             {new Date(ticket.updatedAt).toLocaleString('es-ES')}
                                         </dd>

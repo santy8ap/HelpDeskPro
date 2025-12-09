@@ -11,6 +11,9 @@ import Card from '@/app/components/ui/Card';
 import Badge, { getStatusVariant, getPriorityVariant, getStatusLabel, getPriorityLabel } from '@/app/components/ui/Badge';
 import CommentList from '@/app/components/comments/CommentList';
 import CommentForm from '@/app/components/comments/CommentForm';
+import PageLoading from '@/app/components/ui/PageLoading';
+import { FiArrowLeft, FiMessageSquare, FiInfo, FiCalendar, FiUser, FiClock, FiAlertCircle } from 'react-icons/fi';
+import { HiSparkles } from 'react-icons/hi';
 
 export default function ClientTicketDetailPage() {
     const params = useParams();
@@ -55,25 +58,18 @@ export default function ClientTicketDetailPage() {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <div className="text-6xl mb-4">⏳</div>
-                    <p className="text-gray-500">Cargando ticket...</p>
-                </div>
-            </div>
-        );
+        return <PageLoading message="Cargando detalles del ticket..." />;
     }
 
     if (error || !ticket) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center max-w-md">
-                    <div className="text-6xl mb-4">😕</div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
-                    <p className="text-gray-500 mb-4">{error || 'Ticket no encontrado'}</p>
-                    <Button onClick={() => router.push('/client')}>
-                        Volver al Dashboard
+            <div className="min-h-screen flex items-center justify-center bg-gray-50/50">
+                <div className="text-center max-w-md animate-fade-in-down">
+                    <div className="text-6xl mb-4 animate-bounce">😕</div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Oops! Algo salió mal</h2>
+                    <p className="text-gray-500 mb-6">{error || 'No pudimos encontrar el ticket que buscas.'}</p>
+                    <Button onClick={() => router.push('/client')} className="btn-primary">
+                        <FiArrowLeft className="mr-2" /> Volver al Dashboard
                     </Button>
                 </div>
             </div>
@@ -84,17 +80,17 @@ export default function ClientTicketDetailPage() {
     const assignedTo = ticket.assignedTo && typeof ticket.assignedTo === 'object' ? ticket.assignedTo : null;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50/50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
+            <header className="bg-white/80 backdrop-blur-md border-b border-pink-100 sticky top-0 z-40">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <Button variant="ghost" size="sm" onClick={() => router.push('/client')}>
-                                ← Volver
+                            <Button variant="ghost" size="sm" onClick={() => router.push('/client')} className="hover:bg-pink-50 text-pink-500">
+                                <FiArrowLeft className="mr-1" /> Volver
                             </Button>
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900">
+                                <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                                     Ticket #{ticket._id.slice(-6)}
                                 </h1>
                                 <p className="text-sm text-gray-500">Detalles del ticket</p>
@@ -105,18 +101,19 @@ export default function ClientTicketDetailPage() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in-up">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Ticket Details */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Main Info */}
-                        <Card>
-                            <Card.Header>
+                        <Card className="card-shadow border-t-4 border-t-pink-400">
+                            <Card.Header className="bg-gradient-to-r from-pink-50/50 to-purple-50/50">
                                 <div className="flex items-start justify-between">
-                                    <h2 className="text-2xl font-bold text-gray-900 flex-1">
+                                    <h2 className="text-2xl font-bold text-gray-900 flex-1 flex items-center gap-2">
+                                        <HiSparkles className="text-pink-400" />
                                         {ticket.title}
                                     </h2>
-                                    <div className="flex gap-2 ml-4">
+                                    <div className="flex flex-col sm:flex-row gap-2 ml-4">
                                         <Badge variant={getStatusVariant(ticket.status)}>
                                             {getStatusLabel(ticket.status)}
                                         </Badge>
@@ -128,30 +125,35 @@ export default function ClientTicketDetailPage() {
                             </Card.Header>
                             <Card.Body>
                                 <div className="prose max-w-none">
-                                    <h3 className="text-sm font-semibold text-gray-900 mb-2">Descripción:</h3>
-                                    <p className="text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+                                    <h3 className="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                                        <FiInfo className="text-blue-500" /> Descripción
+                                    </h3>
+                                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 text-gray-700 whitespace-pre-wrap leading-relaxed">
+                                        {ticket.description}
+                                    </div>
                                 </div>
                             </Card.Body>
                         </Card>
 
                         {/* Comments Section */}
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    Conversación ({comments.length})
+                        <Card className="card-shadow">
+                            <Card.Header className="bg-white border-b border-gray-100">
+                                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                    <FiMessageSquare className="text-purple-500" />
+                                    Conversación <span className="bg-purple-100 text-purple-600 text-xs px-2 py-0.5 rounded-full">{comments.length}</span>
                                 </h3>
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body className="bg-gray-50/30">
                                 <CommentList comments={comments} currentUserId={user?._id} />
                             </Card.Body>
                         </Card>
 
                         {/* Add Comment */}
                         {ticket.status !== 'closed' && (
-                            <Card>
-                                <Card.Header>
-                                    <h3 className="text-lg font-semibold text-gray-900">
-                                        Agregar Comentario
+                            <Card className="anime-card border-2 border-blue-100">
+                                <Card.Header className="bg-blue-50/50 border-b border-blue-100">
+                                    <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                        ✨ Agregar Comentario
                                     </h3>
                                 </Card.Header>
                                 <Card.Body>
@@ -169,70 +171,77 @@ export default function ClientTicketDetailPage() {
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {/* Status Info */}
-                        <Card>
-                            <Card.Header>
-                                <h3 className="text-sm font-semibold text-gray-900">Información</h3>
+                        <Card className="card-shadow sticky top-24">
+                            <Card.Header className="bg-gray-50 border-b border-gray-100">
+                                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                                    <FiInfo /> Información
+                                </h3>
                             </Card.Header>
                             <Card.Body>
-                                <dl className="space-y-3">
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Estado</dt>
-                                        <dd className="mt-1">
+                                <dl className="space-y-4">
+                                    <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium">Estado</dt>
+                                        <dd>
                                             <Badge variant={getStatusVariant(ticket.status)}>
                                                 {getStatusLabel(ticket.status)}
                                             </Badge>
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Prioridad</dt>
-                                        <dd className="mt-1">
+                                    <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium">Prioridad</dt>
+                                        <dd>
                                             <Badge variant={getPriorityVariant(ticket.priority)}>
                                                 {getPriorityLabel(ticket.priority)}
                                             </Badge>
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Creado por</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                            <FiUser /> Creado por
+                                        </dt>
+                                        <dd className="text-sm text-gray-900 font-medium">
                                             {createdBy?.name || 'Usuario'}
                                         </dd>
                                     </div>
                                     {assignedTo && (
-                                        <div>
-                                            <dt className="text-xs text-gray-500">Asignado a</dt>
-                                            <dd className="mt-1 text-sm text-gray-900">
-                                                👨‍💼 {assignedTo.name}
+                                        <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                            <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                                <FiUser className="text-blue-500" /> Asignado a
+                                            </dt>
+                                            <dd className="text-sm text-gray-900 font-medium flex items-center gap-1">
+                                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                                {assignedTo.name}
                                             </dd>
                                         </div>
                                     )}
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Fecha de creación</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                            <FiCalendar /> Fecha de creación
+                                        </dt>
+                                        <dd className="text-sm text-gray-900">
                                             {new Date(ticket.createdAt).toLocaleString('es-ES')}
                                         </dd>
                                     </div>
-                                    <div>
-                                        <dt className="text-xs text-gray-500">Última actualización</dt>
-                                        <dd className="mt-1 text-sm text-gray-900">
+                                    <div className="p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                                        <dt className="text-xs text-gray-500 font-medium flex items-center gap-1 mb-1">
+                                            <FiClock /> Última actualización
+                                        </dt>
+                                        <dd className="text-sm text-gray-900">
                                             {new Date(ticket.updatedAt).toLocaleString('es-ES')}
                                         </dd>
                                     </div>
                                 </dl>
                             </Card.Body>
-                        </Card>
-
-                        {/* Help */}
-                        <Card>
-                            <Card.Body>
+                            <div className="p-4 bg-blue-50/50 border-t border-blue-100 rounded-b-xl">
                                 <div className="text-center">
-                                    <p className="text-sm text-gray-600 mb-2">
-                                        Un agente revisará tu ticket pronto.
+                                    <p className="text-sm text-blue-800 font-medium mb-1 flex items-center justify-center gap-1">
+                                        <HiSparkles className="text-yellow-500" /> Estamos para ayudarte
                                     </p>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-blue-600">
                                         Te notificaremos por email cuando haya actualizaciones.
                                     </p>
                                 </div>
-                            </Card.Body>
+                            </div>
                         </Card>
                     </div>
                 </div>
