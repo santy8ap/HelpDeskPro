@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎫 HelpDeskPro
 
-## Getting Started
+Sistema de gestión de tickets de soporte técnico desarrollado con **Next.js**, **TypeScript**, **MongoDB** y **Node.js**.
 
-First, run the development server:
+## 📋 Descripción
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+HelpDeskPro es una aplicación web que permite gestionar tickets de soporte de manera eficiente, centralizando la comunicación entre clientes y agentes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗️ Arquitectura de Datos (ERD)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+El sistema se basa en tres entidades principales relacionadas entre sí:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. User (Usuario)
+Representa a los actores del sistema (Clientes y Agentes).
+- **_id**: ObjectId (PK)
+- **name**: String
+- **email**: String (Unique)
+- **password**: String (Hashed)
+- **role**: Enum ['client', 'agent']
+- **createdAt**: Date
 
-## Learn More
+### 2. Ticket (Solicitud)
+Representa un requerimiento de soporte.
+- **_id**: ObjectId (PK)
+- **title**: String
+- **description**: String
+- **status**: Enum ['open', 'in_progress', 'resolved', 'closed']
+- **priority**: Enum ['low', 'medium', 'high']
+- **createdBy**: ObjectId (Ref: User) -> El cliente que reporta
+- **assignedTo**: ObjectId (Ref: User, Opcional) -> El agente encargado
+- **createdAt**: Date
+- **updatedAt**: Date
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Comment (Comentario)
+Representa el hilo de conversación de un ticket.
+- **_id**: ObjectId (PK)
+- **ticketId**: String (Ref: Ticket) -> Ticket al que pertenece
+- **author**: String (Ref: User) -> Usuario que comenta
+- **message**: String
+- **createdAt**: Date
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔗 Relaciones
+- **1 Usuario (Cliente)** puede crear **N Tickets**.
+- **1 Usuario (Agente)** puede tener asignados **N Tickets**.
+- **1 Ticket** puede tener **N Comentarios**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀 Tecnologías Utilizadas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend**: Next.js 14, React, TypeScript, TailwindCSS
+- **Backend**: Next.js API Routes, MongoDB, Mongoose
+- **Autenticación**: JWT, bcryptjs, Context API
+- **Emails**: Nodemailer (Gmail SMTP)
+- **Cron Jobs**: Vercel Cron / node-cron
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Instalación y Despliegue
+
+### Local
+1. Clonar repositorio.
+2. `npm install`
+3. Configurar `.env.local` (ver `.env.example`).
+4. `npm run dev`
+
+### Despliegue en Vercel (Producción)
+Este proyecto está optimizado para Vercel.
+
+1. Sube tu código a GitHub.
+2. Importa el proyecto en Vercel.
+3. Configura las variables de entorno en Vercel (Settings -> Environment Variables):
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`...
+   - `CRON_SECRET`
+4. ¡Listo! Vercel detectará Next.js y desplegará automáticamente.
+
+## 🧪 Funcionalidades (Happy Path)
+
+1. **Login**: Ingresa como Cliente o Agente.
+2. **Cliente**: Crea un ticket -> Recibe email de confirmación.
+3. **Agente**: Ve el ticket -> Lo asigna -> Responde (Cliente recibe email).
+4. **Cliente**: Ve la respuesta -> Responde de vuelta.
+5. **Agente**: Cierra el ticket (Cliente recibe email de cierre).
+6. **Sistema**: Si un ticket queda olvidado > 24h, el Cron Job avisa a los agentes.
+
+---
+Desarrollado para Prueba de Desempeño.
