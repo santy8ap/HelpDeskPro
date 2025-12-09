@@ -73,6 +73,8 @@ Representa el hilo de conversación de un ticket.
 ### Despliegue en Vercel (Producción)
 Este proyecto está optimizado para Vercel.
 
+https://prueba-final-git-main-santy8aps-projects.vercel.app
+
 
 ## 🧪 Funcionalidades 
 
