@@ -19,10 +19,10 @@ export default function AnimeLoading({
 
     // GIFs de anime para diferentes estados
     const loadingGifs = {
-        thinking: 'https://media.tenor.com/1RN6M1vGP7UAAAAC/konata-lucky-star.gif', // Konata pensando
-        loading: 'https://media.tenor.com/wpShtFFlPFcAAAAC/anime-loading.gif', // Loading genérico anime
-        success: 'https://media.tenor.com/3dNZ0akRgBUAAAAC/anime-happy.gif', // Anime feliz
-        error: 'https://media.tenor.com/TXl_dG8YQiQAAAAC/anime-sad.gif' // Anime triste
+        thinking: 'https://media1.tenor.com/m/2ZuUWp5LDfIAAAAC/konata-lucky-star.gif', // Konata pensando
+        loading: 'https://media1.tenor.com/m/uKelfiTDlWAAAAAC/mai-anime.gif', // Loading genérico anime
+        success: 'https://media1.tenor.com/m/gCY8efAkjBoAAAAC/shupogaki-acomu414.gif', // Anime feliz
+        error: 'https://media1.tenor.com/m/WlyAYdWO3XoAAAAC/gotou-hitori-bocchi-the-rock.gif' // Anime triste
     };
 
     return (

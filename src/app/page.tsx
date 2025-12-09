@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <div className="text-6xl mb-4 animate-bounce">🎫</div>
+        <div className="text-6xl mb-4 animate-bounce"></div>
         <p className="text-gray-500">Cargando HelpDeskPro...</p>
       </div>
     </div>

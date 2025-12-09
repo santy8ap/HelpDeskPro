@@ -98,7 +98,7 @@ async function seed() {
         console.log('✅ Usuarios creados');
 
         // Crear tickets
-        console.log('🎫 Creando tickets...');
+        console.log('Creando tickets...');
 
         const ticket1 = await Ticket.create({
             title: 'No puedo iniciar sesión en el sistema',
@@ -205,7 +205,7 @@ async function seed() {
         console.log('     • cliente1@test.com');
         console.log('     • cliente2@test.com');
         console.log('     • cliente3@test.com');
-        console.log('🎫 Tickets: 6');
+        console.log('Tickets: 6');
         console.log('💬 Comentarios: 6');
         console.log('\n✨ Seed completado exitosamente!');
 

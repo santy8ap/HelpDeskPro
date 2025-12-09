@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
             updatedAt: user.updatedAt,
         };
 
-        return NextResponse.json<ApiResponse>(
+        const response = NextResponse.json<ApiResponse>(
             {
                 success: true,
                 data: { user: userResponse, token },
@@ -67,6 +67,17 @@ export async function POST(request: NextRequest) {
             },
             { status: 200 }
         );
+
+        // Establecer cookie para el middleware
+        response.cookies.set('token', token, {
+            httpOnly: false, // Permitir acceso desde cliente si es necesario
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 7, // 1 semana
+            path: '/',
+        });
+
+        return response;
 
     } catch (error: any) {
         console.error('Error en login:', error);

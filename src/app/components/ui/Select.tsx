@@ -12,6 +12,7 @@ export default function Select({
     required = false,
     disabled = false,
     name,
+    className,
 }: SelectProps) {
     const selectId = name || label?.toLowerCase().replace(/\s/g, '-');
 
@@ -33,8 +34,7 @@ export default function Select({
                 onChange={onChange}
                 disabled={disabled}
                 required={required}
-                className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${error ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${error ? 'border-red-500' : 'border-gray-300'} ${className || ''}`}
             >
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>

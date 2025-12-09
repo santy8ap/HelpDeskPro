@@ -1,4 +1,4 @@
-# 🎫 HelpDeskPro
+#  HelpDeskPro
 
 Sistema de gestión de tickets de soporte técnico desarrollado con **Next.js**, **TypeScript**, **MongoDB** y **Node.js**.
 

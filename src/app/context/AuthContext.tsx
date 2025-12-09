@@ -56,24 +56,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
 
-            // Redirigir según rol
-            if (response.user.role === 'agent') {
-                router.push('/agent');
-            } else {
-                router.push('/client');
-            }
-        } finally {
+            // Redirigir según rol (Usamos window.location para asegurar que las cookies se envíen correctamente al middleware)
+            const targetPath = response.user.role === 'agent' ? '/agent' : '/client';
+            window.location.href = targetPath;
+
+            // No seteamos loading(false) para mantener el estado de carga durante la redirección
+        } catch (error) {
             setLoading(false);
+            throw error;
         }
-    }, [router]);
+    }, []);
 
     // Logout
-    const logout = useCallback(() => {
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        router.push('/login');
+    const logout = useCallback(async () => {
+        try {
+            await authService.logout();
+        } catch (error) {
+            console.error('Error closing session on server', error);
+        } finally {
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            router.push('/login');
+        }
     }, [router]);
 
     const value: AuthContextType = {

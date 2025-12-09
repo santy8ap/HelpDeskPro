@@ -34,6 +34,10 @@ export const authService = {
 
         return response.data.data;
     },
+    // Cerrar sesión
+    async logout(): Promise<void> {
+        await api.post('/auth/logout');
+    },
 };
 
 export default authService;

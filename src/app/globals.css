@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-xl;
+  }
+
+  .anime-card {
+    @apply glass-panel hover:scale-[1.02] transition-transform duration-300;
+  }
+}
+
 /* Paleta de colores inspirada en anime */
 :root {
   --anime-pink: #FFB7D5;

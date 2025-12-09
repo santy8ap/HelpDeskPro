@@ -140,6 +140,7 @@ export interface InputProps {
     required?: boolean;
     disabled?: boolean;
     name?: string;
+    className?: string;
 }
 
 export interface SelectProps {
@@ -151,6 +152,7 @@ export interface SelectProps {
     required?: boolean;
     disabled?: boolean;
     name?: string;
+    className?: string;
 }
 
 

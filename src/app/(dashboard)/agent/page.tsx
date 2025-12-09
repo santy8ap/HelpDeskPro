@@ -68,26 +68,29 @@ export default function AgentDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50">
+
+        <div className="min-h-screen bg-transparent">
             {/* Header */}
-            <header className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white shadow-lg">
+            <header className="bg-white/30 backdrop-blur-md border-b border-white/20 shadow-sm sticky top-0 z-40 transition-all duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <HiSparkles className="text-yellow-300 text-3xl animate-spin-slow" />
+                            <div className="bg-white/50 p-2 rounded-full shadow-inner border border-blue-100">
+                                <HiSparkles className="text-yellow-400 text-3xl animate-spin-slow" />
+                            </div>
                             <div>
-                                <h1 className="text-3xl font-bold flex items-center gap-2">
+                                <h1 className="text-3xl font-black italic bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-transparent bg-clip-text drop-shadow-sm flex items-center gap-2">
                                     Panel de Agente
                                 </h1>
-                                <p className="text-blue-100 mt-1 text-sm font-medium opacity-90">Gestión de Tickets de Soporte</p>
+                                <p className="text-blue-900 mt-1 text-sm font-bold opacity-80 tracking-wide">Gestión de Tickets de Soporte</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-bold">{user.name}</p>
-                                <p className="text-xs text-blue-100 opacity-80">{user.email}</p>
+                            <div className="text-right hidden sm:block bg-white/40 px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/40">
+                                <p className="text-sm font-bold text-gray-800">{user.name}</p>
+                                <p className="text-xs text-blue-700 font-medium">{user.email}</p>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={logout} className="text-white hover:bg-white/20 border border-white/30">
+                            <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:bg-red-50 border border-white/40 bg-white/40 backdrop-blur-sm hover:text-red-600">
                                 <FiLogOut className="mr-2" /> Cerrar Sesión
                             </Button>
                         </div>
@@ -96,62 +99,62 @@ export default function AgentDashboard() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in-up">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in-up">
                 {/* Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
-                    <Card className="card-shadow border-t-4 border-t-blue-500 transform hover:-translate-y-1 transition-all">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-10">
+                    <Card className="anime-card border-t-4 border-t-blue-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider">Total</p>
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-blue-600 drop-shadow-sm">{stats.total}</p>
+                                <p className="text-xs font-bold text-blue-800 mt-1 uppercase tracking-widest bg-blue-100/50 rounded-full py-0.5">Total</p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-green-500 transform hover:-translate-y-1 transition-all">
+                    <Card className="anime-card border-t-4 border-t-green-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-green-600">{stats.open}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-green-600 drop-shadow-sm">{stats.open}</p>
+                                <p className="text-xs font-bold text-green-800 mt-1 uppercase tracking-widest flex items-center justify-center gap-1 bg-green-100/50 rounded-full py-0.5">
                                     <FiActivity /> Abiertos
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-yellow-500 transform hover:-translate-y-1 transition-all">
+                    <Card className="anime-card border-t-4 border-t-yellow-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-yellow-600 drop-shadow-sm">{stats.inProgress}</p>
+                                <p className="text-xs font-bold text-yellow-800 mt-1 uppercase tracking-widest flex items-center justify-center gap-1 bg-yellow-100/50 rounded-full py-0.5">
                                     <FiClock /> Proceso
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-purple-500 transform hover:-translate-y-1 transition-all">
+                    <Card className="anime-card border-t-4 border-t-purple-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-purple-600">{stats.resolved}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-purple-600 drop-shadow-sm">{stats.resolved}</p>
+                                <p className="text-xs font-bold text-purple-800 mt-1 uppercase tracking-widest flex items-center justify-center gap-1 bg-purple-100/50 rounded-full py-0.5">
                                     <FiCheckCircle /> Resueltos
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-gray-500 transform hover:-translate-y-1 transition-all">
+                    <Card className="anime-card border-t-4 border-t-gray-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-gray-600">{stats.closed}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-gray-600 drop-shadow-sm">{stats.closed}</p>
+                                <p className="text-xs font-bold text-gray-800 mt-1 uppercase tracking-widest flex items-center justify-center gap-1 bg-gray-100/50 rounded-full py-0.5">
                                     <FiArchive /> Cerrados
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-red-500 transform hover:-translate-y-1 transition-all">
+                    <Card className="anime-card border-t-4 border-t-red-500 group">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-red-600">{stats.highPriority}</p>
-                                <p className="text-xs font-bold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-3xl font-black text-red-600 drop-shadow-sm">{stats.highPriority}</p>
+                                <p className="text-xs font-bold text-red-800 mt-1 uppercase tracking-widest flex items-center justify-center gap-1 bg-red-100/50 rounded-full py-0.5">
                                     <FiAlertCircle /> Alta Prio
                                 </p>
                             </div>
@@ -160,14 +163,14 @@ export default function AgentDashboard() {
                 </div>
 
                 {/* Filters */}
-                <div className="mb-6 animate-scale-in">
-                    <Card className="anime-card border-2 border-blue-100">
-                        <Card.Header className="bg-blue-50/50 border-b border-blue-100 py-3">
-                            <h3 className="text-sm font-bold text-blue-800 flex items-center gap-2">
-                                <FiFilter /> Filtros de Búsqueda
+                <div className="mb-8 animate-scale-in">
+                    <Card className="anime-card border-2 border-blue-200/50 overflow-visible">
+                        <Card.Header className="bg-gradient-to-r from-blue-100/50 to-purple-100/50 border-b border-blue-100 py-4 backdrop-blur-md rounded-t-2xl">
+                            <h3 className="text-lg font-bold text-blue-900 flex items-center gap-2">
+                                <span className="p-1 bg-white rounded-lg shadow-sm"><FiFilter className="text-blue-500" /></span> Filtros de Búsqueda
                             </h3>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body className="bg-white/30 rounded-b-2xl">
                             <TicketFilters
                                 status={filters.status}
                                 priority={filters.priority}
@@ -178,13 +181,13 @@ export default function AgentDashboard() {
                     </Card>
                 </div>
 
-                {/* Header */}
+                {/* Header for list */}
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                        <span className="text-2xl">📋</span> Todos los Tickets
+                    <h2 className="text-2xl font-black text-gray-800 flex items-center gap-2 drop-shadow-sm">
+                        <span className="text-3xl">📋</span> Todos los Tickets
                         {(filters.status !== 'all' || filters.priority !== 'all') && (
-                            <span className="ml-2 text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                                (Filtrados)
+                            <span className="ml-2 text-sm font-bold text-white bg-gradient-to-r from-blue-500 to-purple-500 px-3 py-1 rounded-full shadow-md animate-pulse">
+                                Filtrados
                             </span>
                         )}
                     </h2>
@@ -192,7 +195,7 @@ export default function AgentDashboard() {
                         variant="secondary"
                         size="sm"
                         onClick={loadTickets}
-                        className="bg-white hover:bg-gray-50 border border-gray-200 shadow-sm"
+                        className="bg-white/60 hover:bg-white border border-white/60 shadow-md backdrop-blur-sm text-blue-700"
                     >
                         <FiRefreshCw className="mr-2" /> Actualizar
                     </Button>
@@ -200,19 +203,19 @@ export default function AgentDashboard() {
 
                 {/* Error */}
                 {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 animate-fade-in-down">
-                        <p className="text-red-800 flex items-center gap-2">
-                            <FiAlertCircle className="text-red-500" /> {error}
+                    <div className="mb-6 bg-red-100/80 border-l-4 border-red-500 rounded-r-xl p-4 animate-fade-in-down shadow-md backdrop-blur-sm">
+                        <p className="text-red-800 flex items-center gap-2 font-bold">
+                            <FiAlertCircle className="text-red-600 text-xl" /> {error}
                         </p>
                     </div>
                 )}
 
                 {/* Tickets List */}
-                <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-2">
+                <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 border border-white/30 shadow-xl min-h-[300px]">
                     <TicketList
                         tickets={filteredTickets}
                         basePath="/agent"
-                        loading={false} // Loading handled by PageLoading
+                        loading={false}
                         emptyMessage="No hay tickets que coincidan con los filtros seleccionados"
                     />
                 </div>

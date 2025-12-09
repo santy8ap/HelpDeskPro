@@ -2,20 +2,22 @@
 
 export default function VideoBackground({ videoSrc = "/future-trunks-dbz.3840x2160.mp4" }: { videoSrc?: string }) {
     return (
-        <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="fixed inset-0 -z-10 overflow-hidden bg-black">
             {/* Video de fondo */}
             <video
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover opacity-30"
+                className="absolute inset-0 w-full h-full object-cover"
+                key={videoSrc} // Forzar recarga si cambia el src
             >
                 <source src={videoSrc} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
             </video>
 
-            {/* Overlay con gradiente para mejorar legibilidad */}
-            <div className="absolute inset-0 bg-gradient-to-br from-pink-50/80 via-purple-50/80 to-blue-50/80"></div>
+            {/* Overlay sutil para mejorar contraste sin ocultar el video */}
+            <div className="absolute inset-0 bg-black/20"></div>
         </div>
     );
 }

@@ -30,7 +30,7 @@ export default function TicketList({
   if (tickets.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="text-6xl mb-4">🎫</div>
+        <div className="text-6xl mb-4"></div>
         <p className="text-gray-500 text-lg">{emptyMessage}</p>
       </div>
     );

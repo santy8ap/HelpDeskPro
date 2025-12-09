@@ -58,26 +58,30 @@ export default function ClientDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50">
+
+
+        <div className="min-h-screen bg-transparent font-sans">
             {/* Header */}
-            <header className="bg-white/80 backdrop-blur-md border-b border-pink-100 sticky top-0 z-40">
+            <header className="bg-white/80 backdrop-blur-xl border-b border-white/40 sticky top-0 z-40 shadow-sm transition-all duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <HiSparkles className="text-pink-500 text-2xl animate-pulse" />
+                            <div className="bg-white/50 p-2 rounded-full shadow-inner ring-2 ring-pink-100">
+                                <HiSparkles className="text-pink-500 text-2xl animate-spin-slow" />
+                            </div>
                             <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+                                <h1 className="text-2xl font-black italic bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 text-transparent bg-clip-text drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]">
                                     HelpDeskPro
                                 </h1>
-                                <p className="text-xs text-gray-500 font-medium">Panel de Cliente</p>
+                                <p className="text-xs text-indigo-900 font-bold tracking-widest bg-white/30 px-2 rounded-full inline-block mt-0.5">PANEL DE CLIENTE</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="text-right hidden sm:block">
+                            <div className="text-right hidden sm:block bg-white/60 px-4 py-1.5 rounded-2xl backdrop-blur-md border border-white/50 shadow-sm transition-all hover:bg-white/80">
                                 <p className="text-sm font-bold text-gray-800">{user.name}</p>
-                                <p className="text-xs text-gray-500">{user.email}</p>
+                                <p className="text-xs text-indigo-700 font-medium">{user.email}</p>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:bg-red-50">
+                            <Button variant="ghost" size="sm" onClick={logout} className="bg-white/60 hover:bg-red-50 text-red-500 hover:text-red-600 border border-white/50 shadow-sm backdrop-blur-md transition-all hover:scale-105">
                                 <FiLogOut className="mr-2" /> Salir
                             </Button>
                         </div>
@@ -86,52 +90,52 @@ export default function ClientDashboard() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in-up">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in-up">
                 {/* Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-                    <Card className="card-shadow border-t-4 border-t-blue-400">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+                    <Card className="anime-card bg-white/80 border-t-4 border-t-blue-500 group hover:shadow-blue-200/50">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider">Total</p>
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-4xl font-black text-blue-600 drop-shadow-sm">{stats.total}</p>
+                                <p className="text-xs font-extrabold text-blue-900 mt-2 uppercase tracking-widest bg-blue-100 rounded-lg py-1 shadow-sm">Total</p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-green-400">
+                    <Card className="anime-card bg-white/80 border-t-4 border-t-green-500 group hover:shadow-green-200/50">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-green-600">{stats.open}</p>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-4xl font-black text-green-600 drop-shadow-sm">{stats.open}</p>
+                                <p className="text-xs font-extrabold text-green-900 mt-2 uppercase tracking-widest flex items-center justify-center gap-1 bg-green-100 rounded-lg py-1 shadow-sm">
                                     <FiActivity /> Abiertos
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-yellow-400">
+                    <Card className="anime-card bg-white/80 border-t-4 border-t-yellow-400 group hover:shadow-yellow-200/50">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-4xl font-black text-yellow-600 drop-shadow-sm">{stats.inProgress}</p>
+                                <p className="text-xs font-extrabold text-yellow-800 mt-2 uppercase tracking-widest flex items-center justify-center gap-1 bg-yellow-100 rounded-lg py-1 shadow-sm">
                                     <FiClock /> En Proceso
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-purple-400">
+                    <Card className="anime-card bg-white/80 border-t-4 border-t-purple-500 group hover:shadow-purple-200/50">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-purple-600">{stats.resolved}</p>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-4xl font-black text-purple-600 drop-shadow-sm">{stats.resolved}</p>
+                                <p className="text-xs font-extrabold text-purple-900 mt-2 uppercase tracking-widest flex items-center justify-center gap-1 bg-purple-100 rounded-lg py-1 shadow-sm">
                                     <FiCheckCircle /> Resueltos
                                 </p>
                             </div>
                         </Card.Body>
                     </Card>
-                    <Card className="card-shadow border-t-4 border-t-gray-400">
+                    <Card className="anime-card bg-white/80 border-t-4 border-t-gray-500 group hover:shadow-gray-200/50">
                         <Card.Body className="p-4">
-                            <div className="text-center">
-                                <p className="text-3xl font-bold text-gray-600">{stats.closed}</p>
-                                <p className="text-xs font-semibold text-gray-500 mt-1 uppercase tracking-wider flex items-center justify-center gap-1">
+                            <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
+                                <p className="text-4xl font-black text-gray-700 drop-shadow-sm">{stats.closed}</p>
+                                <p className="text-xs font-extrabold text-gray-900 mt-2 uppercase tracking-widest flex items-center justify-center gap-1 bg-gray-200 rounded-lg py-1 shadow-sm">
                                     <FiArchive /> Cerrados
                                 </p>
                             </div>
@@ -140,32 +144,35 @@ export default function ClientDashboard() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                        <span className="text-2xl">🎫</span> Mis Tickets
-                    </h2>
+                <div className="flex items-center justify-between mb-8">
+                    <div className="bg-white/60 backdrop-blur-md px-6 py-2 rounded-2xl shadow-sm border border-white/50">
+                        <h2 className="text-3xl font-black text-gray-800 flex items-center gap-3 drop-shadow-sm">
+                            <span className="bg-gradient-to-r from-gray-800 to-gray-600 text-transparent bg-clip-text">Mis Tickets</span>
+                        </h2>
+                    </div>
+
                     <Button
                         onClick={() => setShowCreateForm(!showCreateForm)}
-                        className={showCreateForm ? "bg-red-500 hover:bg-red-600 text-white" : "btn-primary"}
+                        className={showCreateForm ? "bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20 transform hover:scale-105 transition-all" : "btn-primary shadow-lg shadow-pink-500/20 transform hover:scale-105 transition-all"}
                     >
                         {showCreateForm ? (
                             <><FiX className="mr-2" /> Cancelar</>
                         ) : (
-                            <><FiPlus className="mr-2" /> Crear Ticket</>
+                            <><FiPlus className="mr-2 text-xl" /> Crear Ticket</>
                         )}
                     </Button>
                 </div>
 
                 {/* Create Form */}
                 {showCreateForm && (
-                    <div className="mb-8 animate-scale-in">
-                        <Card className="anime-card border-2 border-pink-100">
-                            <Card.Header className="bg-gradient-to-r from-pink-50 to-purple-50 border-b border-pink-100">
-                                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <div className="mb-10 animate-scale-in">
+                        <Card className="anime-card bg-white/90 border-2 border-pink-200 shadow-2xl overflow-visible backdrop-blur-xl">
+                            <Card.Header className="bg-gradient-to-r from-pink-100 to-purple-100 border-b border-pink-200 rounded-t-2xl p-4">
+                                <h3 className="text-xl font-bold text-pink-800 flex items-center gap-2">
                                     ✨ Crear Nuevo Ticket
                                 </h3>
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body className="p-6">
                                 <TicketForm
                                     onSubmit={async (data) => {
                                         await ticketService.createTicket(data);
@@ -179,19 +186,19 @@ export default function ClientDashboard() {
 
                 {/* Error */}
                 {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 animate-fade-in-down">
-                        <p className="text-red-800 flex items-center gap-2">
-                            <FiX className="text-red-500" /> {error}
+                    <div className="mb-6 bg-red-100/90 border-l-4 border-red-500 rounded-r-xl p-4 animate-fade-in-down shadow-lg backdrop-blur-md">
+                        <p className="text-red-900 flex items-center gap-2 font-bold">
+                            <FiX className="text-red-600 text-xl" /> {error}
                         </p>
                     </div>
                 )}
 
                 {/* Tickets List */}
-                <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-2">
+                <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white/60 shadow-2xl min-h-[300px] transition-all duration-500 hover:bg-white/75">
                     <TicketList
                         tickets={tickets}
                         basePath="/client"
-                        loading={false} // Loading handled by PageLoading
+                        loading={false}
                         emptyMessage="No tienes tickets creados. ¡Crea tu primer ticket para comenzar!"
                     />
                 </div>

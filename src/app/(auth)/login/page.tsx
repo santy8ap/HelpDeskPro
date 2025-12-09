@@ -39,7 +39,7 @@ export default function LoginPage() {
             if (isLogin) {
                 await login(formData.email, formData.password);
                 toast.success('¡Bienvenido de vuelta!', {
-                    icon: <HiSparkles className="text-pink-500" />,
+                    icon: <HiSparkles className="text-yellow-400" />,
                 });
             } else {
                 await authService.register({
@@ -49,7 +49,7 @@ export default function LoginPage() {
                     role: formData.role,
                 });
                 toast.success('¡Cuenta creada exitosamente! Ya puedes iniciar sesión.', {
-                    icon: <HiSparkles className="text-pink-500" />,
+                    icon: <HiSparkles className="text-yellow-400" />,
                 });
                 setIsLogin(true);
                 setFormData({ name: '', email: '', password: '', role: 'client' });
@@ -69,165 +69,160 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-12 sakura-pattern relative overflow-hidden">
-            {/* Animated background elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-32 h-32 bg-pink-200/20 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 left-1/2 w-36 h-36 bg-blue-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="w-full animate-fade-in-right">
+            {/* Logo/Header */}
+            <div className="text-center mb-6">
+                <div className="inline-flex items-center gap-2 mb-2">
+                    <HiSparkles className="text-yellow-400 text-4xl animate-pulse" />
+                    <h1 className="text-5xl font-bold text-white drop-shadow-lg tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                        HelpDeskPro
+                    </h1>
+                </div>
+                <p className="text-blue-100 text-lg font-medium drop-shadow-md">
+                    {isLogin ? 'Accede a tu panel de control' : 'Únete a la plataforma del futuro'}
+                </p>
             </div>
 
-            <div className="w-full max-w-md animate-fade-in-down relative z-10">
-                {/* Logo/Header */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 text-transparent bg-clip-text">
-                        <HiSparkles className="text-pink-400 text-3xl" />
-                        <h1 className="text-5xl font-bold">
-                            HelpDeskPro
-                        </h1>
-                    </div>
-                    <p className="text-gray-600 text-sm mt-2">
-                        {isLogin ? 'Bienvenido de vuelta' : 'Crea tu cuenta'}
-                    </p>
-                </div>
-
-                <Card className="anime-card animate-scale-in">
-                    <Card.Body>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            {!isLogin && (
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-2">
-                                        <FiUser className="text-pink-500" />
-                                        Nombre
-                                    </label>
-                                    <Input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required={!isLogin}
-                                        placeholder="Tu nombre completo"
-                                    />
-                                </div>
-                            )}
-
+            <div className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="p-8">
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        {!isLogin && (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-2">
-                                    <FiMail className="text-pink-500" />
-                                    Correo Electrónico
+                                <label className="block text-sm font-bold text-blue-100 mb-1.5 flex items-center gap-2">
+                                    <FiUser className="text-yellow-400" />
+                                    Nombre
                                 </label>
                                 <Input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
                                     onChange={handleChange}
-                                    required
-                                    placeholder="tu@email.com"
+                                    required={!isLogin}
+                                    placeholder="Tu nombre completo"
+                                    className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400/50"
                                 />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-2">
-                                    <FiLock className="text-pink-500" />
-                                    Contraseña
-                                </label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                    placeholder="••••••••"
-                                />
-                            </div>
-
-                            {!isLogin && (
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1.5 flex items-center gap-2">
-                                        <FiBriefcase className="text-pink-500" />
-                                        Rol
-                                    </label>
-                                    <Select
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                        options={[
-                                            { value: 'client', label: 'Cliente' },
-                                            { value: 'agent', label: 'Agente de Soporte' },
-                                        ]}
-                                    />
-                                </div>
-                            )}
-
-                            <Button
-                                type="submit"
-                                loading={loading}
-                                disabled={loading}
-                                className="w-full btn-primary font-semibold text-base flex items-center justify-center gap-2"
-                            >
-                                {loading ? (
-                                    'Procesando...'
-                                ) : isLogin ? (
-                                    <>
-                                        <FiLogIn /> Iniciar Sesión
-                                    </>
-                                ) : (
-                                    <>
-                                        <FiUserPlus /> Crear Cuenta
-                                    </>
-                                )}
-                            </Button>
-                        </form>
-
-                        <div className="mt-6 text-center">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setIsLogin(!isLogin);
-                                }}
-                                className="text-sm text-purple-500 hover:text-purple-600 font-medium transition-colors"
-                            >
-                                {isLogin
-                                    ? '¿No tienes cuenta? Regístrate aquí'
-                                    : '¿Ya tienes cuenta? Inicia sesión'}
-                            </button>
-                        </div>
-
-                        {/* Credenciales de prueba */}
-                        {isLogin && (
-                            <div className="mt-6 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl border border-pink-200/50">
-                                <p className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                                    <HiSparkles className="text-pink-500" />
-                                    Cuentas de Prueba
-                                </p>
-                                <div className="space-y-2 text-xs text-gray-600">
-                                    <div className="flex items-center justify-between">
-                                        <span className="flex items-center gap-1">
-                                            <FiUser className="text-pink-400" />
-                                            Cliente:
-                                        </span>
-                                        <code className="bg-white/70 px-2 py-1 rounded">cliente1@test.com</code>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="flex items-center gap-1">
-                                            <FiBriefcase className="text-purple-400" />
-                                            Agente:
-                                        </span>
-                                        <code className="bg-white/70 px-2 py-1 rounded">agente1@helpdesk.com</code>
-                                    </div>
-                                    <div className="text-center text-gray-500 text-xs mt-1">
-                                        Password: <code className="bg-white/70 px-2 py-0.5 rounded">123456</code>
-                                    </div>
-                                </div>
                             </div>
                         )}
-                    </Card.Body>
-                </Card>
 
-                {/* Footer */}
-                <div className="text-center mt-6 text-sm text-gray-500">
-                    <p>Made with love by HelpDeskPro Team</p>
+                        <div>
+                            <label className="block text-sm font-bold text-blue-100 mb-1.5 flex items-center gap-2">
+                                <FiMail className="text-yellow-400" />
+                                Correo Electrónico
+                            </label>
+                            <Input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                placeholder="tu@email.com"
+                                className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400/50"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-bold text-blue-100 mb-1.5 flex items-center gap-2">
+                                <FiLock className="text-yellow-400" />
+                                Contraseña
+                            </label>
+                            <Input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                placeholder="••••••••"
+                                className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400/50"
+                            />
+                        </div>
+
+                        {!isLogin && (
+                            <div>
+                                <label className="block text-sm font-bold text-blue-100 mb-1.5 flex items-center gap-2">
+                                    <FiBriefcase className="text-yellow-400" />
+                                    Rol
+                                </label>
+                                <Select
+                                    name="role"
+                                    value={formData.role}
+                                    onChange={handleChange}
+                                    options={[
+                                        { value: 'client', label: 'Cliente' },
+                                        { value: 'agent', label: 'Agente de Soporte' },
+                                    ]}
+                                    className="bg-white/10 border-white/20 text-white focus:border-yellow-400 focus:ring-yellow-400/50 [&>option]:text-gray-900"
+                                />
+                            </div>
+                        )}
+
+                        <Button
+                            type="submit"
+                            loading={loading}
+                            disabled={loading}
+                            className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-gray-900 font-bold text-lg py-3 rounded-xl shadow-lg transform transition-all hover:scale-[1.02] flex items-center justify-center gap-2 border-none"
+                        >
+                            {loading ? (
+                                'Procesando...'
+                            ) : isLogin ? (
+                                <>
+                                    <FiLogIn /> Iniciar Sesión
+                                </>
+                            ) : (
+                                <>
+                                    <FiUserPlus /> Crear Cuenta
+                                </>
+                            )}
+                        </Button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setIsLogin(!isLogin);
+                            }}
+                            className="text-sm text-blue-200 hover:text-white font-medium transition-colors hover:underline"
+                        >
+                            {isLogin
+                                ? '¿No tienes cuenta? Regístrate aquí'
+                                : '¿Ya tienes cuenta? Inicia sesión'}
+                        </button>
+                    </div>
+
+                    {/* Credenciales de prueba */}
+                    {isLogin && (
+                        <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
+                            <p className="text-xs font-bold text-yellow-200 mb-2 flex items-center gap-1 uppercase tracking-wider">
+                                <HiSparkles />
+                                Cuentas de Prueba
+                            </p>
+                            <div className="space-y-2 text-xs text-gray-300">
+                                <div className="flex items-center justify-between">
+                                    <span className="flex items-center gap-1">
+                                        <FiUser className="text-blue-300" />
+                                        Cliente:
+                                    </span>
+                                    <code className="bg-black/30 px-2 py-1 rounded text-white font-mono">cliente1@test.com</code>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="flex items-center gap-1">
+                                        <FiBriefcase className="text-purple-300" />
+                                        Agente:
+                                    </span>
+                                    <code className="bg-black/30 px-2 py-1 rounded text-white font-mono">agente1@helpdesk.com</code>
+                                </div>
+                                <div className="text-center text-gray-400 text-xs mt-2">
+                                    Password: <code className="bg-black/30 px-2 py-0.5 rounded text-white font-mono">123456</code>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
+            </div>
+
+            {/* Footer */}
+            <div className="text-center mt-6 text-xs text-white/50">
+                <p>Powered by Super Saiyan Technology</p>
             </div>
         </div>
     );

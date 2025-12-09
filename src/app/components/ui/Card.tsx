@@ -8,7 +8,7 @@ export default function Card({
     className = '',
     onClick,
 }: CardProps) {
-    const baseStyles = 'bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden';
+    const baseStyles = 'bg-white/60 backdrop-blur-lg rounded-xl shadow-lg border border-white/50 overflow-hidden transition-all duration-300 hover:shadow-xl hover:bg-white/70';
     const clickableStyles = onClick ? 'cursor-pointer hover:shadow-lg transition-shadow' : '';
 
     return (
